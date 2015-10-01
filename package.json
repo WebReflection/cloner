@@ -1,10 +1,20 @@
 {
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "name": "cloner",
-  "description": "",
+  "description": "An ES5+ compatible utility to deep or shallow copy and merge objects.",
   "homepage": "https://github.com/WebReflection/cloner",
-  "keywords": [],
+  "keywords": [
+    "ES5",
+    "ES6",
+    "ES2015",
+    "clone",
+    "copy",
+    "shallow",
+    "deep",
+    "merge",
+    "utility"
+  ],
   "author": {
     "name": "Andrea Giammarchi",
     "web": "http://webreflection.blogspot.com/"
@@ -15,7 +25,7 @@
   },
   "main": "./build/cloner.node.js",
   "scripts": {
-    "test": "node test/.test.js||phantomjs testrunner.js",
+    "test": "node test/.test.js",
     "web": "node node_modules/tiny-cdn/tiny-cdn run -p=1337",
     "install-global-dev": "node -e '(function(o){for(var k in o)require(\"child_process\").spawn(\"npm\",[\"install\",\"-g\",k+\"@\"+o[k]]).on(\"exit\",console.log.bind(console,k+\"@\"+o[k]));}(require(\"package.json\").globalDevDependencies))'"
   },
