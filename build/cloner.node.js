@@ -108,7 +108,7 @@ var cloner = (function (O) {'use strict';
     deepDefine = function deepDefine(target, source) {
       for (var
         key, descriptor,
-        descriptors = {_:{enumerable: true, configurable: true, writable: true, value: Math.random()}},
+        descriptors = {},
         keys = oKs(source),
         i = keys.length; i--;
       ) {
