@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Cloner by WebReflection</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Cloner</h1>
+          <h2>Cloning ES5+ objects in a shallow or deep way</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/WebReflection/cloner/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/WebReflection/cloner/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/WebReflection/cloner" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a id="cloner-" class="anchor" href="#cloner-" aria-hidden="true"><span class="octicon octicon-link"></span></a>cloner <a href="http://travis-ci.org/WebReflection/cloner"><img src="https://secure.travis-ci.org/WebReflection/cloner.svg" alt="build status"></a>
+</h1>
+
+<p>An ES5+ compatible utility to deep or shallow copy and merge objects.</p>
+
+<h3>
+<a id="api" class="anchor" href="#api" aria-hidden="true"><span class="octicon octicon-link"></span></a>API</h3>
+
+<p>The module has two sub modules: <code>shallow</code> and <code>deep</code>.
+Both of them will have two methods: <code>copy</code> and <code>merge</code>.</p>
+
+<h4>
+<a id="clonershallowcopyobjectshallowcopy" class="anchor" href="#clonershallowcopyobjectshallowcopy" aria-hidden="true"><span class="octicon octicon-link"></span></a>cloner.shallow.copy(object):shallowCopy</h4>
+
+<p>Will loop over all own keys and copy them to a new object. The equivalent operation can be described as such:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">// it's based on descriptors</span>
+<span class="pl-c1">Object</span>.defineProperties(
+  <span class="pl-c">// it preserves inheritance</span>
+  <span class="pl-c1">Object</span>.create(
+    <span class="pl-c1">Object</span>.getPrototypeOf(source)
+  ),
+  <span class="pl-c">// it does shallow copy</span>
+  Reflect.ownKeys(source).reduce(<span class="pl-k">function</span> (<span class="pl-smi">d</span>, <span class="pl-smi">k</span>) {
+    d[k] <span class="pl-k">=</span> <span class="pl-c1">Object</span>.getOwnPropertyDescriptor(source, k);
+  }, {})
+  <span class="pl-c">// or Reflect.getOwnPropertyDescriptors(source)</span>
+);</pre></div>
+
+<p>The <code>cloner.shallow.copy</code> utility is most likely what you are looking for instead of the underpowered <code>Object.assign</code> one.</p>
+
+<h4>
+<a id="clonershallowmergetarget-source1-source2-sourcentarget" class="anchor" href="#clonershallowmergetarget-source1-source2-sourcentarget" aria-hidden="true"><span class="octicon octicon-link"></span></a>cloner.shallow.merge(target, source1[, source2, sourceN]):target</h4>
+
+<p>Preserves what's already in the <code>target</code> and merge all own keys found in one or more passed sources.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> a <span class="pl-k">=</span> {a<span class="pl-k">:</span> <span class="pl-c1">1</span>, b<span class="pl-k">:</span> <span class="pl-c1">2</span>};
+<span class="pl-k">var</span> b <span class="pl-k">=</span> cloner.shallow.merge({a<span class="pl-k">:</span> <span class="pl-c1">3</span>}, a);
+
+b; <span class="pl-c">// {a: 3, b: 2}</span></pre></div>
+
+<p>Probably the best option to merge states, ideal for statics or immutable properties.</p>
+
+<h4>
+<a id="clonerdeepcopyobjectdeepcopy" class="anchor" href="#clonerdeepcopyobjectdeepcopy" aria-hidden="true"><span class="octicon octicon-link"></span></a>cloner.deep.copy(object):deepCopy</h4>
+
+<p>Same as <code>cloner.shallow.copy</code> beside the fact every single own key will be deeply copied.
+Like its shallow counterpart, it does preserve inheritance and it's <strong>recursion aware</strong>, meaning it shouldn't fail with recursive properties, as already <a href="test/cloner.js">tested</a>.</p>
+
+<h3>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use</h3>
+
+<p><code>npm install cloner</code> should do, otherwise <a href="build/">grab the file you like the most</a> in here.</p>
+
+<h3>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h3>
+
+<pre><code>
+</code></pre>
+        </section>
+
+        <footer>
+          Cloner is maintained by <a href="https://github.com/WebReflection">WebReflection</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
