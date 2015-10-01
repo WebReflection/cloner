@@ -42,8 +42,13 @@ Same as `cloner.shallow.copy` beside the fact every single own key will be deepl
 Like its shallow counterpart, it does preserve inheritance and it's **recursion aware**, meaning it shouldn't fail with recursive properties, as already [tested](test/cloner.js).
 
 
+#### cloner.deep.merge(target, source1[, source2, sourceN]):target
+Same as `cloner.shallow.merge` but each new own key will be deeply copied.
+
+
 ### How to use
 `npm install cloner` should do, otherwise [grab the file you like the most](build/) in here.
+
 
 ### License
 ```
