@@ -10,6 +10,7 @@ var cloner = (function (O) {'use strict';
 
     // shortcuts
     create  = O.create,
+    dP      = O.defineProperty,
     dPs     = O.defineProperties,
     gOPD    = O.getOwnPropertyDescriptor,
     gOPN    = O.getOwnPropertyNames,
@@ -21,6 +22,14 @@ var cloner = (function (O) {'use strict';
     oKs     = (typeof Reflect !== typeof oK) &&
               Reflect.ownKeys ||
               function (o) { return gOPS(o).concat(gOPN(o)); },
+    set     = function (descriptors, key, descriptor) {
+      if (key in descriptors) dP(descriptors, key, {
+        configurable: true,
+        enumerable: true,
+        value: descriptor
+      });
+      else descriptors[key] = descriptor;
+    },
 
     // used to avoid recursions in deep copy
     index   = -1,
@@ -59,7 +68,7 @@ var cloner = (function (O) {'use strict';
         descriptors = {},
         keys = oKs(source),
         i = keys.length; i--;
-        descriptors[key] = gOPD(source, key)
+        set(descriptors, key, gOPD(source, key))
       ) key = keys[i];
       return create(gPO(source), descriptors);
     },
@@ -93,7 +102,7 @@ var cloner = (function (O) {'use strict';
         key = keys[i];
         descriptor = gOPD(source, key);
         if (VALUE in descriptor) deepValue(descriptor);
-        descriptors[key] = descriptor;
+        set(descriptors, key, descriptor);
       }
       dPs(target, descriptors);
     },
@@ -140,7 +149,7 @@ var cloner = (function (O) {'use strict';
             if (deep && VALUE in descriptor) {
               deepValue(descriptor);
             }
-            descriptors[key] = descriptor;
+            set(descriptors, key, descriptor);
           }
         }
       }
