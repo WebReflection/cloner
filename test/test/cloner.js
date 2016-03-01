@@ -102,5 +102,13 @@ wru.test([
         b.f === b
       );
     }
+  }, {
+    name: "Array serialized as Array",
+    test: function () {
+      wru.assert(
+        'Array are preserved',
+        JSON.stringify(cloner.deep.copy({array:[1,{array:[2]}]})) === '{"array":[1,{"array":[2]}]}'
+      );
+    }
   }
 ]);

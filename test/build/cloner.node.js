@@ -31,7 +31,9 @@ var cloner = (function (O) {'use strict';
     PROTO   = '__proto__', // to avoid jshint complains
 
     // shortcuts
+    isArray = Array.isArray,
     create  = O.create,
+    dP      = O.defineProperty,
     dPs     = O.defineProperties,
     gOPD    = O.getOwnPropertyDescriptor,
     gOPN    = O.getOwnPropertyNames,
@@ -43,6 +45,14 @@ var cloner = (function (O) {'use strict';
     oKs     = (typeof Reflect !== typeof oK) &&
               Reflect.ownKeys ||
               function (o) { return gOPS(o).concat(gOPN(o)); },
+    set     = function (descriptors, key, descriptor) {
+      if (key in descriptors) dP(descriptors, key, {
+        configurable: true,
+        enumerable: true,
+        value: descriptor
+      });
+      else descriptors[key] = descriptor;
+    },
 
     // used to avoid recursions in deep copy
     index   = -1,
@@ -51,10 +61,14 @@ var cloner = (function (O) {'use strict';
     clean   = function () { known = blown = null; },
 
     // utilities
+    New = function (source, descriptors) {
+      var out = isArray(source) ? [] : create(gPO(source));
+      return descriptors ? Object.defineProperties(out, descriptors) : out;
+    },
 
     // deep copy and merge
     deepCopy = function deepCopy(source) {
-      var result = create(gPO(source));
+      var result = New(source);
       known = [source];
       blown = [result];
       deepDefine(result, source);
@@ -81,9 +95,9 @@ var cloner = (function (O) {'use strict';
         descriptors = {},
         keys = oKs(source),
         i = keys.length; i--;
-        descriptors[key] = gOPD(source, key)
+        set(descriptors, key, gOPD(source, key))
       ) key = keys[i];
-      return create(gPO(source), descriptors);
+      return New(source, descriptors);
     },
     shallowMerge = function () {
       clean();
@@ -108,21 +122,21 @@ var cloner = (function (O) {'use strict';
     deepDefine = function deepDefine(target, source) {
       for (var
         key, descriptor,
-        descriptors = {_:{enumerable: true, configurable: true, writable: true, value: Math.random()}},
+        descriptors = {},
         keys = oKs(source),
         i = keys.length; i--;
       ) {
         key = keys[i];
         descriptor = gOPD(source, key);
         if (VALUE in descriptor) deepValue(descriptor);
-        descriptors[key] = descriptor;
+        set(descriptors, key, descriptor);
       }
       dPs(target, descriptors);
     },
     deepValue = function deepValue(descriptor) {
       var value = descriptor[VALUE];
       if (shouldCopy(value)) {
-        descriptor[VALUE] = create(gPO(value));
+        descriptor[VALUE] = New(value);
         deepDefine(descriptor[VALUE], value);
         blown[known.indexOf(value)] = descriptor[VALUE];
       } else if (-1 < index && index in blown) {
@@ -162,7 +176,7 @@ var cloner = (function (O) {'use strict';
             if (deep && VALUE in descriptor) {
               deepValue(descriptor);
             }
-            descriptors[key] = descriptor;
+            set(descriptors, key, descriptor);
           }
         }
       }
