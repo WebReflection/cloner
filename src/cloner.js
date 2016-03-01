@@ -9,6 +9,7 @@ var cloner = (function (O) {'use strict';
     PROTO   = '__proto__', // to avoid jshint complains
 
     // shortcuts
+    isArray = Array.isArray,
     create  = O.create,
     dP      = O.defineProperty,
     dPs     = O.defineProperties,
@@ -38,10 +39,14 @@ var cloner = (function (O) {'use strict';
     clean   = function () { known = blown = null; },
 
     // utilities
+    New = function (source, descriptors) {
+      var out = isArray(source) ? [] : create(gPO(source));
+      return descriptors ? Object.defineProperties(out, descriptors) : out;
+    },
 
     // deep copy and merge
     deepCopy = function deepCopy(source) {
-      var result = create(gPO(source));
+      var result = New(source);
       known = [source];
       blown = [result];
       deepDefine(result, source);
@@ -70,7 +75,7 @@ var cloner = (function (O) {'use strict';
         i = keys.length; i--;
         set(descriptors, key, gOPD(source, key))
       ) key = keys[i];
-      return create(gPO(source), descriptors);
+      return New(source, descriptors);
     },
     shallowMerge = function () {
       clean();
@@ -109,7 +114,7 @@ var cloner = (function (O) {'use strict';
     deepValue = function deepValue(descriptor) {
       var value = descriptor[VALUE];
       if (shouldCopy(value)) {
-        descriptor[VALUE] = create(gPO(value));
+        descriptor[VALUE] = New(value);
         deepDefine(descriptor[VALUE], value);
         blown[known.indexOf(value)] = descriptor[VALUE];
       } else if (-1 < index && index in blown) {
