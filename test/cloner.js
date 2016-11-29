@@ -44,7 +44,7 @@ wru.test([
       var a = {a: 1, b: 2};
       var b = cloner.shallow.merge({a: 3}, a);
       wru.assert('it did not have problems with already available properties',
-        b.a === 3 &&
+        b.a === 1 &&
         b.b === 2
       );
       var a = {a: 1, b: 2};
@@ -82,14 +82,24 @@ wru.test([
   }, {
     name: 'deep.merge',
     test: function () {
-      var a = {a: {a: 1}, b: {b: 2}};
+      var a = {a: {a: 1}, b: {b: 2}, c: 4};
       var b = cloner.deep.merge({a: {c: 3}}, a);
       wru.assert('it did merge deeply',
         a.a !== b.a &&
         a.b !== b.b &&
         b.a.a === 1 &&
         b.a.c === 3 &&
-        b.b.b === 2
+        b.b.b === 2 &&
+        b.c === 4
+      );
+      var b = cloner.deep.merge({a: {a: 0, c: 3}, b: {b: 1}, c: 2}, a);
+      wru.assert('it did merge over existing properties',
+        a.a !== b.a &&
+        a.b !== b.b &&
+        b.a.a === 1 &&
+        b.a.c === 3 &&
+        b.b.b === 2 &&
+        b.c === 4
       );
       a.f = a;
       var b = cloner.deep.merge({a: {c: 3}}, a);

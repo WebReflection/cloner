@@ -170,6 +170,8 @@ var cloner = (function (O) {'use strict';
                     merge.call(deep, tvalue, value);
                   }
                 }
+              }else{
+	            set(descriptors, key, descriptor);
               }
             }
           } else {
