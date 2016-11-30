@@ -173,7 +173,9 @@ var cloner = (function (O) {'use strict';
               }else{
 	            set(descriptors, key, descriptor);
               }
-            }
+            }else{
+	          set(descriptors, key, descriptor);
+	        }
           } else {
             if (deep && VALUE in descriptor) {
               deepValue(descriptor);
