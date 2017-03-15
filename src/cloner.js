@@ -154,8 +154,8 @@ var cloner = (function (O) {'use strict';
             if (deep && VALUE in descriptor) {
               deepValue(descriptor);
             }
-            set(descriptors, key, descriptor);
           }
+          set(descriptors, key, descriptor);
         }
       }
       return dPs(target, descriptors);

@@ -44,7 +44,7 @@ wru.test([
       var a = {a: 1, b: 2};
       var b = cloner.shallow.merge({a: 3}, a);
       wru.assert('it did not have problems with already available properties',
-        b.a === 3 &&
+        b.a === 1 &&
         b.b === 2
       );
       var a = {a: 1, b: 2};
@@ -100,6 +100,12 @@ wru.test([
         b.a.c === 3 &&
         b.b.b === 2 &&
         b.f === b
+      );
+      var a = {a: 1, b: 2};
+      var b = cloner.deep.merge({a: 3}, a);
+      wru.assert('it did not have problems with already available properties',
+        b.a === 1 &&
+        b.b === 2
       );
     }
   }, {
