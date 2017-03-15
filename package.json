@@ -1,5 +1,5 @@
 {
-  "version": "0.4.0",
+  "version": "1.0.0",
   "license": "MIT",
   "name": "cloner",
   "description": "An ES5+ compatible utility to deep or shallow copy and merge objects.",
