@@ -116,5 +116,30 @@ wru.test([
         JSON.stringify(cloner.deep.copy({array:[1,{array:[2]}]})) === '{"array":[1,{"array":[2]}]}'
       );
     }
+  }, {
+    name: 'strings too',
+    test: function () {
+      var source = {
+        items: [
+          {
+            name: "string",
+            details: [{}],
+            Id: "string",
+            Id2: "string",
+            details2: [{}],
+            words: "",
+            text: "string",
+            text2: "string"
+          }
+        ]
+      };
+      var target = cloner.deep.copy(source);
+      for (var key in source.items[0]) {
+        wru.assert(key,
+          JSON.stringify(source.items[0][key]) ===
+          JSON.stringify(target.items[0][key])
+        );
+      }
+    }
   }
 ]);
