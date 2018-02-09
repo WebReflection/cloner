@@ -8,7 +8,7 @@ wru.test([
     test: function () {
       wru.assert('it exists', typeof cloner == 'object');
       wru.assert('it has deep', typeof cloner.deep == 'object');
-      wru.assert('it has shallpw', typeof cloner.shallow == 'object');
+      wru.assert('it has shallow', typeof cloner.shallow == 'object');
       wru.assert('it has deep methods', typeof cloner.deep.copy == 'function' && typeof cloner.deep.merge == 'function');
       wru.assert('it has shallow methods', typeof cloner.shallow.copy == 'function' && typeof cloner.shallow.merge == 'function');
     }
