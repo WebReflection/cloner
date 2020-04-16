@@ -1,10 +1,11 @@
 const cloner = require('../cjs');
 
-const source = {plain: 'abc', re: /test/gi, date: new Date, value: [1, 2, 3], get shit() { return 'done'; }};
+const source = {plain: 'abc', re: /test/gi, date: new Date, value: [1, 2, 3], get shit() { return 'done'; }, fn() {}};
 const target = cloner(source);
 
 console.assert(target.plain === source.plain, 'plain');
 console.assert(target.shit === source.shit, 'shit');
+console.assert(target.fn === source.fn, 'plain');
 console.assert(target.re.source === source.re.source, 'source');
 console.assert(target.re.flags === source.re.flags, 'flags');
 console.assert(+target.date === +source.date, 'date');

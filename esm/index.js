@@ -19,7 +19,8 @@ const clone = source => {
           descriptor.value = new RegExp(value.source, value.flags);
           break;
         case value instanceof Object:
-          descriptor.value = clone(value);
+          if (typeof value !== 'function')
+            descriptor.value = clone(value);
           break;
       }
     }
