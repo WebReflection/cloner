@@ -1,6 +1,6 @@
 {
   "name": "cloner",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "An utility to deeply clone objects.",
   "main": "./cjs/index.js",
   "scripts": {
