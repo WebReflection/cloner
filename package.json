@@ -1,37 +1,48 @@
 {
-  "version": "1.0.0",
-  "license": "MIT",
   "name": "cloner",
-  "description": "An ES5+ compatible utility to deep or shallow copy and merge objects.",
-  "homepage": "https://github.com/WebReflection/cloner",
+  "version": "1.0.0",
+  "description": "An utility to deeply clone objects.",
+  "main": "./cjs/index.js",
+  "scripts": {
+    "build": "npm run cjs && npm run rollup:es && npm run rollup:babel && npm run min && npm run fix:default && npm run test",
+    "cjs": "ascjs --no-default esm cjs",
+    "rollup:es": "rollup --config rollup/es.config.js",
+    "rollup:babel": "rollup --config rollup/babel.config.js",
+    "min": "uglifyjs index.js --support-ie8 --comments=/^!/ -c -m -o min.js",
+    "fix:default": "sed -i 's/({})/({}).default/' index.js && sed -i 's/({})/({}).default/' es.js && sed -i 's/({})/({}).default/' min.js",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "test": "nyc node test/index.js"
+  },
   "keywords": [
-    "ES5",
-    "ES6",
-    "ES2015",
     "clone",
-    "copy",
-    "shallow",
+    "object",
     "deep",
-    "merge",
     "utility"
   ],
-  "author": {
-    "name": "Andrea Giammarchi",
-    "web": "http://webreflection.blogspot.com/"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/WebReflection/cloner.git"
-  },
-  "main": "./build/cloner.node.js",
-  "scripts": {
-    "test": "node test/.test.js",
-    "web": "node node_modules/tiny-cdn/tiny-cdn run -p=1337"
-  },
+  "author": "Andrea Giammarchi",
+  "license": "ISC",
   "devDependencies": {
-    "jshint": "^2.9.1",
-    "tiny-cdn": "^0.5.2",
-    "uglify": "^0.1.5",
-    "wru": "^0.2.7"
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@ungap/degap": "^0.2.0",
+    "ascjs": "^3.1.2",
+    "coveralls": "^3.0.11",
+    "nyc": "^15.0.1",
+    "rollup": "^2.6.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-includepaths": "^0.2.3",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.3.0",
+    "uglify-js": "^3.9.1"
+  },
+  "module": "./esm/index.js",
+  "type": "module",
+  "exports": {
+    "import": "./esm/index.js",
+    "default": "./cjs/index.js"
+  },
+  "unpkg": "min.js",
+  "dependencies": {
+    "@ungap/own-keys": "^0.1.0"
   }
 }
